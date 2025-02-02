@@ -29,6 +29,12 @@ if uploaded_file:
     text_splitter = SemanticChunker(HuggingFaceEmbeddings())
     documents = text_splitter.split_documents(docs)
 
+    st.write("### Semantic Chunks:")
+    for i, doc in enumerate(documents):
+        st.write(f"**Chunk {i+1}:**")
+        st.write(doc.page_content)
+        st.write("")
+
     embedder = HuggingFaceEmbeddings()
     vector = FAISS.from_documents(documents, embedder)
     retriever = vector.as_retriever(search_type="similarity", search_kwargs={"k": 3})
